@@ -4,6 +4,8 @@ class Api::V1::ProductsController < ApplicationController
 
   def index
   products = Product.includes(:stocks).all
+  products = products.where("name ILIKE ?", "%#{params[:name]}%") if params[:name].present?
+  
   render json: ProductSerializer.new(products).serializable_hash.to_json
 end
 
