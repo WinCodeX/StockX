@@ -18,6 +18,8 @@ gem 'devise-jwt'
 # Serializer
 gem 'fast_jsonapi'
 
+gem 'active_model_serializers'
+
 # For CORS (API access from mobile/web)
 gem 'rack-cors'
 
