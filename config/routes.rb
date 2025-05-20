@@ -15,6 +15,7 @@ Rails.application.routes.draw do
     
     resources :products do
     resources :stocks, only: [:index, :create]
+    resources :sales, only: [:index, :create]
     end
   end
 end
