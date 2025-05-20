@@ -5,8 +5,16 @@ class Api::V1::ProductsController < ApplicationController
   def index
   products = Product.includes(:stocks).all
   products = products.where("name ILIKE ?", "%#{params[:name]}%") if params[:name].present?
-  
-  render json: ProductSerializer.new(products).serializable_hash.to_json
+  products = products.page(params[:page]).per(params[:per_page] || 10)
+
+  render json: {
+    products: ProductSerializer.new(products).serializable_hash,
+    meta: {
+      current_page: products.current_page,
+      total_pages: products.total_pages,
+      total_count: products.total_count
+    }
+  }
 end
 
   def show
