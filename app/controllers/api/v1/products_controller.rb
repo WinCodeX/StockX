@@ -8,8 +8,8 @@ class Api::V1::ProductsController < ApplicationController
 end
 
   def show
-    render json: @product
-  end
+  render json: ProductSerializer.new(@product).serializable_hash.to_json
+end
 
   def create
     product = Product.new(product_params)
