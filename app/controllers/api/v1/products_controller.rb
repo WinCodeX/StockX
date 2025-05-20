@@ -3,8 +3,9 @@ class Api::V1::ProductsController < ApplicationController
   before_action :set_product, only: %i[show update destroy]
 
   def index
-    render json: Product.all
-  end
+  products = Product.includes(:stocks).all
+  render json: ProductSerializer.new(products).serializable_hash.to_json
+end
 
   def show
     render json: @product
