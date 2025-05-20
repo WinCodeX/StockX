@@ -20,6 +20,8 @@ gem 'fast_jsonapi'
 
 gem 'active_model_serializers'
 
+gem 'kaminari'
+
 # For CORS (API access from mobile/web)
 gem 'rack-cors'
 
