@@ -6,12 +6,7 @@ module Api
       include Rails.application.routes.url_helpers
 
 def show
-  render json: {
-    id: current_user.id,
-    name: current_user.username,
-    email: current_user.email,
-    avatar: current_user.avatar.attached? ? url_for(current_user.avatar) : nil
-  }
+  render json: UserSerializer.new(current_user).serializable_hash
 end
 
       def update_avatar
