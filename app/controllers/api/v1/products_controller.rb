@@ -8,13 +8,13 @@ class Api::V1::ProductsController < ApplicationController
   products = products.page(params[:page]).per(params[:per_page] || 10)
 
   render json: {
-    products: ProductSerializer.new(products).serializable_hash,
-    meta: {
-      current_page: products.current_page,
-      total_pages: products.total_pages,
-      total_count: products.total_count
-    }
+  products: ProductSerializer.new(products).serializable_hash,
+  meta: {
+    current_page: products.current_page,
+    total_pages: products.total_pages,
+    total_count: products.total_count
   }
+}.to_json
 end
 
   def show
