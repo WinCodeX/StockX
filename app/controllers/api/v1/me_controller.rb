@@ -1,7 +1,7 @@
 module Api
   module V1
     class MeController < ApplicationController
-      before_action :authenticate_request
+      before_action :authenticate_user!
 
       def show
         render json: { id: @current_user.id, name: @current_user.name, email: @current_user.email, avatar: @current_user.avatar }
