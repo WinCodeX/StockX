@@ -1,7 +1,14 @@
-class UserSerializer < ActiveModel::Serializer
-  attributes :id, :email, :username, :avatar_url
+# app/serializers/user_serializer.rb
+class UserSerializer
+  include FastJsonapi::ObjectSerializer
 
-  def avatar_url
-    object.avatar.attached? ? Rails.application.routes.url_helpers.rails_blob_url(object.avatar, only_path: true) : nil
+  attributes :id, :email, :username
+
+  attribute :avatar_url do |user|
+    if user.avatar.attached?
+      Rails.application.routes.url_helpers.rails_blob_url(user.avatar, only_path: true)
+    else
+      nil
+    end
   end
 end
