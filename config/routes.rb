@@ -13,6 +13,9 @@ Rails.application.routes.draw do
   namespace :api do
   namespace :v1 do
     
+    get 'me', to: 'me#show'
+    put 'me/avatar', to: 'me#update_avatar'
+
     resources :products do
     resources :stocks, only: [:index, :create]
     resources :sales, only: [:index, :create]
