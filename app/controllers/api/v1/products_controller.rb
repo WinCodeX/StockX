@@ -2,6 +2,8 @@ class Api::V1::ProductsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_product, only: %i[show update destroy]
 
+respond_to :json
+
   def index
   products = Product.includes(:stocks).all
   products = products.where("name ILIKE ?", "%#{params[:name]}%") if params[:name].present?
