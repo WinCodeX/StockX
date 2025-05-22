@@ -6,17 +6,22 @@ respond_to :json
 
   def index
   products = Product.includes(:stocks).all
-  products = products.where("name ILIKE ?", "%#{params[:name]}%") if params[:name].present?
+
+  if params[:query].present?
+    query = params[:query].downcase
+    products = products.where("LOWER(name) LIKE ? OR CAST(price AS TEXT) LIKE ?", "%#{query}%", "%#{query}%")
+  end
+
   products = products.page(params[:page]).per(params[:per_page] || 10)
 
   render json: {
-  products: ProductSerializer.new(products).serializable_hash,
-  meta: {
-    current_page: products.current_page,
-    total_pages: products.total_pages,
-    total_count: products.total_count
-  }
-}.to_json
+    products: ProductSerializer.new(products).serializable_hash,
+    meta: {
+      current_page: products.current_page,
+      total_pages: products.total_pages,
+      total_count: products.total_count
+    }
+  }.to_json
 end
 
   def show
