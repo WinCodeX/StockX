@@ -16,9 +16,9 @@ Rails.application.routes.draw do
     get 'me', to: 'me#show', defaults: { format: :json }
     put 'me/avatar', to: 'me#update_avatar'
 
-    resources :products do
-    resources :stocks, only: [:index, :create]
-    resources :sales, only: [:index, :create]
+    resources :products, defaults: { format: :json } do
+      resources :stocks, only: [:index, :create], defaults: { format: :json }
+      resources :sales, only: [:index, :create], defaults: { format: :json }
     end
   end
 end
