@@ -10,15 +10,17 @@ def show
 end
 
       def update_avatar
-        if current_user.update(avatar: params[:avatar])
-          render json: {
-            message: 'Avatar updated successfully',
-            avatar: current_user.avatar
-          }
-        else
-          render json: { errors: current_user.errors.full_messages }, status: :unprocessable_entity
-        end
-      end
+  current_user.avatar.attach(params[:avatar])
+
+  if current_user.avatar.attached?
+    render json: {
+      message: 'Avatar updated successfully',
+      avatar_url: rails_blob_url(current_user.avatar, only_path: true)
+    }, status: :ok
+  else
+    render json: { error: 'Avatar failed to upload' }, status: :unprocessable_entity
+  end
+end
     end
   end
 end
