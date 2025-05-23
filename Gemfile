@@ -26,6 +26,8 @@ gem 'kaminari'
 gem 'rack-cors'
 
 
+gem 'image_processing', '~> 1.12'
+
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 # gem "jbuilder"
 
