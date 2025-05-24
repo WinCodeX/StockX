@@ -2,7 +2,7 @@ module Api
   module V1
     class SalesController < ApplicationController
       before_action :authenticate_user!
-      before_action :set_product
+      before_action :set_product, only: [:index, :create]
 
       def index
         render json: @product.sales
