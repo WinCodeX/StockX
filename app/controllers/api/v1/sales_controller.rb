@@ -30,6 +30,24 @@ module Api
         end
       end
 
+
+def recent
+  recent_sales = Sale.includes(:product)
+                     .order(created_at: :desc)
+                     .limit(5)
+                     .map do |sale|
+    {
+      id: sale.id,
+      product_name: sale.product.name,
+      quantity: sale.quantity,
+      total: sale.total_price,
+      sold_at: sale.created_at
+    }
+  end
+
+  render json: recent_sales
+end
+
       private
 
      
