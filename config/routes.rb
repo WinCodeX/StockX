@@ -12,13 +12,22 @@ Rails.application.routes.draw do
 
   namespace :api do
   namespace :v1 do
-    
     get 'me', to: 'me#show', defaults: { format: :json }
     put 'me/avatar', to: 'me#update_avatar'
 
     resources :products, defaults: { format: :json } do
+      collection do
+        get :stats
+      end
+
       resources :stocks, only: [:index, :create], defaults: { format: :json }
       resources :sales, only: [:index, :create], defaults: { format: :json }
+    end
+
+    resources :sales, only: [], defaults: { format: :json } do
+      collection do
+        get :recent
+      end
     end
   end
 end
