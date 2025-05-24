@@ -26,7 +26,8 @@ respond_to :json
     meta: {
       current_page: paginated.current_page,
       total_pages: paginated.total_pages,
-      total_count: paginated.total_count
+      total_count: paginated.total_count,
+      has_more: paginated.current_page < paginated.total_pages
     }
   }.to_json
 end
