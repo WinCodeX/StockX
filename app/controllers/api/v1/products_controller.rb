@@ -36,6 +36,21 @@ end
   render json: ProductSerializer.new(@product).serializable_hash.to_json
 end
 
+def stats
+  total_products = Product.count
+  low_stock = Product.joins(:stocks)
+                     .group(:id)
+                     .having('SUM(stocks.quantity) < ?', 5)
+                     .count
+                     .size
+
+  render json: {
+    total_products: total_products,
+    low_stock: low_stock
+  }
+end
+
+
   def create
     product = Product.new(product_params)
     if product.save
