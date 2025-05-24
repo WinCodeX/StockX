@@ -5,21 +5,28 @@ class Api::V1::ProductsController < ApplicationController
 respond_to :json
 
   def index
-  products = Product.includes(:stocks).all
+  products = Product.includes(:stocks)
 
   if params[:query].present?
     query = params[:query].downcase
-    products = products.where("LOWER(name) LIKE ? OR CAST(price AS TEXT) LIKE ?", "%#{query}%", "%#{query}%")
+    products = products.where(
+      "LOWER(name) LIKE ? OR CAST(price AS TEXT) LIKE ?",
+      "%#{query}%", "%#{query}%"
+    )
   end
 
-  products = products.page(params[:page]).per(params[:per_page] || 10)
+  # Order by most recent first
+  products = products.order(created_at: :desc)
+
+  # Paginate
+  paginated = products.page(params[:page]).per(params[:per_page] || 10)
 
   render json: {
-    products: ProductSerializer.new(products).serializable_hash,
+    products: ProductSerializer.new(paginated).serializable_hash,
     meta: {
-      current_page: products.current_page,
-      total_pages: products.total_pages,
-      total_count: products.total_count
+      current_page: paginated.current_page,
+      total_pages: paginated.total_pages,
+      total_count: paginated.total_count
     }
   }.to_json
 end
