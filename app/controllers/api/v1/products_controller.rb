@@ -5,7 +5,7 @@ class Api::V1::ProductsController < ApplicationController
 respond_to :json
 
   def index
-  products = Product.includes(:stocks)
+  products = Product.includes(:stocks, image_attachment: :blob)
 
   if params[:query].present?
     query = params[:query].downcase
