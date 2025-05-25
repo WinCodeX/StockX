@@ -11,16 +11,16 @@
 puts "Seeding users..."
 
 User.find_or_create_by!(email: "admin@example.com") do |user|
-  user.password = "password"
-  user.password_confirmation = "password"
+  user.password = "password123"
+  user.password_confirmation = "password123"
   user.username = "Admin"
   user.avatar = nil
 end
 
-User.find_or_create_by!(email: "user@example.com") do |user|
-  user.password = "password"
-  user.password_confirmation = "password"
-  user.username = "RegularUser"
+User.find_or_create_by!(email: "glenwinterg970@gmail.com") do |user|
+  user.password = "Leviathan@Xcode"
+  user.password_confirmation = "Leviathan@Xcode"
+  user.username = "Level0"
   user.avatar = nil
 end
 
