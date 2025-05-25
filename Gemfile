@@ -66,3 +66,5 @@ end
 gem "jwt", "~> 2.10"
 
 gem "render_build_setup", "~> 0.0.1"
+
+gem "aws-sdk-s3", require: false
