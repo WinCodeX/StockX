@@ -14,7 +14,7 @@ Rails.application.routes.draw do
   namespace :v1 do
     get 'me', to: 'me#show', defaults: { format: :json }
     put 'me/avatar', to: 'me#update_avatar'
-
+    get 'ping', to: 'status#ping'
     resources :products, defaults: { format: :json } do
       collection do
         get :stats
