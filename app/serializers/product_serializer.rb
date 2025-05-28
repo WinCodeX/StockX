@@ -1,6 +1,6 @@
 class ProductSerializer
   include FastJsonapi::ObjectSerializer
-  include Rails.application.routes.url_helpers  # 👈 Ensure url_for works properly
+  include Rails.application.routes.url_helpers # Ensure `url_for` works
 
   attributes :id, :name, :sku, :price, :quantity, :total_stock
 
@@ -8,7 +8,7 @@ class ProductSerializer
 
   attribute :image_url do |product|
     if product.image.attached?
-      url_for(product.image)
+      Rails.application.routes.url_helpers.url_for(product.image)
     end
   end
 
