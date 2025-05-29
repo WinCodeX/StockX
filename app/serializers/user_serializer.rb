@@ -8,7 +8,7 @@ class UserSerializer
     if user.avatar.attached?
       Rails.application.routes.url_helpers.rails_representation_url(
   user.avatar.variant(resize_to_fill: [60, 60]).processed,
-  only_path: true
+  only_path: false
 )
     else
       nil
