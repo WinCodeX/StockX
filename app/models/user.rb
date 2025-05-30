@@ -12,5 +12,6 @@ class User < ApplicationRecord
 has_one_attached :avatar
 has_many :user_businesses
 has_many :businesses, through: :user_businesses
+has_many :invites, foreign_key: :inviter_id
 
 end
