@@ -4,15 +4,16 @@ module Api
       before_action :authenticate_user!
 
       def create
-        business = Business.new(business_params)
-        business.owner = current_user
+  business = Business.new(business_params)
+  business.owner = current_user
 
-        if business.save
-          render json: { success: true, business: business }, status: :created
-        else
-          render json: { success: false, errors: business.errors.full_messages }, status: :unprocessable_entity
-        end
-      end
+  if business.save
+    UserBusiness.create!(user: current_user, business: business, role: 'owner')
+    render json: { success: true, business: business }, status: :created
+  else
+    render json: { errors: business.errors.full_messages }, status: :unprocessable_entity
+  end
+end
 
       def index
         businesses = current_user.user_businesses.includes(:business).map(&:business)
