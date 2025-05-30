@@ -15,6 +15,11 @@ bundle install
 echo "=== Seeding Test Data ==="
 bundle exec rails db:seed
 
+bin/rails db:migrate:up VERSION=20250530070004
+
+bin/rails db:migrate:up VERSION=20250530070651
+
+bin/rails db:migrate:up VERSION=20250530081845
 #bin/rails db:migrate
 
 bundle exec rails db:migrate 
