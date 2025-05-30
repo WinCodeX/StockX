@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_05_21_070044) do
+ActiveRecord::Schema[7.1].define(version: 2025_05_30_070651) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -42,6 +42,14 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_21_070044) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "businesses", force: :cascade do |t|
+    t.string "name"
+    t.bigint "owner_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["owner_id"], name: "index_businesses_on_owner_id"
+  end
+
   create_table "products", force: :cascade do |t|
     t.string "name"
     t.string "sku"
@@ -70,6 +78,16 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_21_070044) do
     t.index ["product_id"], name: "index_stocks_on_product_id"
   end
 
+  create_table "user_businesses", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "business_id", null: false
+    t.string "role"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["business_id"], name: "index_user_businesses_on_business_id"
+    t.index ["user_id"], name: "index_user_businesses_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -86,6 +104,9 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_21_070044) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "businesses", "users", column: "owner_id"
   add_foreign_key "sales", "products"
   add_foreign_key "stocks", "products"
+  add_foreign_key "user_businesses", "businesses"
+  add_foreign_key "user_businesses", "users"
 end
