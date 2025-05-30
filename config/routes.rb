@@ -29,6 +29,13 @@ Rails.application.routes.draw do
         get :recent
       end
     end
+
+
+resources :invites, only: [:create] do
+  collection do
+    post :accept
+      end
+    end
   end
 end
 
