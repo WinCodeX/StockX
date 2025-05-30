@@ -10,5 +10,7 @@ class User < ApplicationRecord
        jwt_revocation_strategy: Devise::JWT::RevocationStrategies::Null
 
 has_one_attached :avatar
+has_many :user_businesses
+has_many :businesses, through: :user_businesses
 
 end
