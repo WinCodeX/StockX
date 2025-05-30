@@ -15,8 +15,9 @@ bundle install
 echo "=== Seeding Test Data ==="
 bundle exec rails db:seed
 
-bin/rails db:migrate
+#bin/rails db:migrate
 
+bundle exec rails db:migrate 
 
 echo "=== Build Complete Successfully ==="
 
