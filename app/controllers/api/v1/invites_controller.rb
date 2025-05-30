@@ -4,14 +4,16 @@ module Api
       before_action :authenticate_user!
 
       def create
-        # Safer query with find_by to avoid unhandled exceptions
         business = current_user.businesses.find_by(id: params[:business_id])
 
         unless business
           return render json: { error: 'Business not found or unauthorized' }, status: :not_found
         end
 
-        invite = business.invites.new(inviter: current_user, expires_at: 3.days.from_now)
+        invite = business.business_invites.new(
+          inviter: current_user,
+          expires_at: 3.days.from_now
+        )
 
         if invite.save
           render json: { code: invite.code }, status: :created
@@ -21,7 +23,7 @@ module Api
       end
 
       def accept
-        invite = Invite.find_by(code: params[:code])
+        invite = BusinessInvite.find_by(code: params[:code])
 
         if invite && invite.expires_at > Time.current
           if UserBusiness.exists?(user: current_user, business: invite.business)
