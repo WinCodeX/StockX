@@ -1,3 +1,5 @@
+module Api
+  module V1
 class InvitesController < ApplicationController
   before_action :authenticate_user!
 
