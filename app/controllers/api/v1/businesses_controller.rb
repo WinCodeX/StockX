@@ -16,9 +16,18 @@ module Api
 end
 
       def index
-        businesses = current_user.user_businesses.includes(:business).map(&:business)
-        render json: businesses, status: :ok
-      end
+  owned = current_user.owned_businesses.select(:id, :name)
+  joined = current_user.user_businesses
+                       .includes(:business)
+                       .where.not(businesses: { owner_id: current_user.id })
+                       .map(&:business)
+                       .uniq
+
+  render json: {
+    owned: owned.as_json(only: [:id, :name]),
+    joined: joined.as_json(only: [:id, :name])
+  }, status: :ok
+end
 
       def show
         business = Business.find(params[:id])
