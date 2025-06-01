@@ -16,12 +16,15 @@ module Api
 end
 
       def index
-  owned = current_user.owned_businesses.select(:id, :name)
+  owned = current_user.user_businesses
+                      .includes(:business)
+                      .where(role: 'owner')
+                      .map(&:business)
+
   joined = current_user.user_businesses
                        .includes(:business)
-                       .where.not(businesses: { owner_id: current_user.id })
+                       .where(role: 'staff')
                        .map(&:business)
-                       .uniq
 
   render json: {
     owned: owned.as_json(only: [:id, :name]),
