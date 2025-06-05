@@ -10,7 +10,7 @@ module Api
 
       def create
         stock = @product.stocks.build(stock_params)
-        stock.added_by = current_user.email # or current_user.name if available
+        stock.added_by = current_user.username # or current_user.name if available
 
         if stock.save
           render json: stock, status: :created
