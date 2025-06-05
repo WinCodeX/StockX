@@ -68,6 +68,25 @@ end
     end
   end
 
+def history
+  product = Product.includes(:stocks).find(params[:id])
+
+  history_data = product.stocks.order(created_at: :asc).map do |stock|
+    {
+      event: "Stock added: +#{stock.quantity}",
+      actor: stock.added_by || "System",
+      timestamp: stock.created_at
+    }
+  end
+
+  render json: {
+    name: product.name,
+    created_at: product.created_at,
+    history: history_data,
+    qr_url: url_for(product.qr_code) # Adjust this based on how you handle QR codes
+  }
+end
+
   def destroy
     @product.destroy
     head :no_content
