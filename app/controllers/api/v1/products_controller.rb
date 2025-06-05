@@ -106,5 +106,6 @@ product.qr_code.attach(
   content_type: 'image/png'
 )
 
-end end
+ end 
+end
 
