@@ -12,6 +12,12 @@ class ProductSerializer
     end
   end
 
+attribute :qr_code_url do |product|
+    if product.qr_code.attached?
+      url_for(product.qr_code)
+    end
+  end
+
   attribute :total_stock do |object|
     object.stocks.sum(:quantity)
   end
