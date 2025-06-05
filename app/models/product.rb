@@ -9,4 +9,9 @@ def total_stock
   stocks.sum(:quantity)
 end
 
+
+def qr_code_url
+    Rails.application.routes.url_helpers.url_for(qr_code) if qr_code.attached?
+  end
+
 end
