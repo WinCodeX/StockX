@@ -322,6 +322,7 @@ DEPENDENCIES
   active_model_serializers
   aws-sdk-s3
   bootsnap
+  chunky_png
   debug
   devise
   devise-jwt
