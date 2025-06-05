@@ -69,5 +69,6 @@ gem "render_build_setup", "~> 0.0.1"
 
 gem "aws-sdk-s3", require: false
 
+gem 'chunky_png'
 gem "rqrcode", "~> 3.1"
 gem "mini_magick", "~> 5.2"
