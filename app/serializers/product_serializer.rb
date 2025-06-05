@@ -14,7 +14,7 @@ class ProductSerializer
 
 attribute :qr_code_url do |product|
     if product.qr_code.attached?
-      url_for(product.qr_code)
+      Rails.application.routes.url_helpers.url_for(product.qr_code)
     end
   end
 
