@@ -10,6 +10,8 @@ module Api
 
       def create
         stock = @product.stocks.build(stock_params)
+        stock.added_by = current_user.email # or current_user.name if available
+
         if stock.save
           render json: stock, status: :created
         else
@@ -19,14 +21,13 @@ module Api
 
       private
 
-     
-
       def set_product
         @product = Product.find(params[:product_id])
       end
 
       def stock_params
         params.require(:stock).permit(:quantity, :note)
+        # Note: we don’t permit :added_by here because it's set from the server
       end
     end
   end
