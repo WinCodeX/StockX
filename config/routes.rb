@@ -44,7 +44,7 @@ end
 
 end
 
-Health check
+#Health check
 
 get "up" => "rails/health#show", as: :rails_health_check
 
