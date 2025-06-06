@@ -16,6 +16,8 @@ bundle exec rails db:migrate:up VERSION=20250530070651
 
 bundle exec rails db:migrate:up VERSION=20250530081845
 
+bundle exec rails db:migrate:up VERSION=20250605145106
+
 echo "=== Seeding Test Data ==="
 bundle exec rails db:seed
 
