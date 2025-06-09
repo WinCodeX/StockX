@@ -28,7 +28,7 @@ class Api::V1::ProductsController < ApplicationController
         total_count: paginated.total_count,
         has_more: paginated.current_page < paginated.total_pages
       }
-    }.to_json
+    }
   end
 
   def show
