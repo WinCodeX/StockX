@@ -2,7 +2,8 @@ Rails.application.routes.draw do
 
 devise_for :users, path: '', path_names: { sign_in: 'login', sign_out: 'logout' }, controllers: { sessions: 'users/sessions' }
 
-namespace :api do namespace :v1 do
+namespace :api do 
+namespace :v1 do
 
 # User routes
   get 'me', to: 'me#show', defaults: { format: :json }
