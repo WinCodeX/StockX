@@ -9,6 +9,11 @@ namespace :api do namespace :v1 do
   put 'me/avatar', to: 'me#update_avatar'
   get 'ping', to: 'status#ping', defaults: { format: :json }
 
+#conversation and messages
+
+resources :conversations, only: [:index, :create, :show]
+    resources :messages, only: [:create]
+
   # Product + related data
   resources :products, defaults: { format: :json } do
     collection do
