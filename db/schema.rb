@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_06_05_145106) do
+ActiveRecord::Schema[7.1].define(version: 2025_06_09_145748) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -59,6 +59,24 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_05_145106) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["owner_id"], name: "index_businesses_on_owner_id"
+  end
+
+  create_table "conversations", force: :cascade do |t|
+    t.integer "sender_id"
+    t.integer "receiver_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "messages", force: :cascade do |t|
+    t.bigint "conversation_id", null: false
+    t.bigint "user_id", null: false
+    t.text "body"
+    t.boolean "read"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["conversation_id"], name: "index_messages_on_conversation_id"
+    t.index ["user_id"], name: "index_messages_on_user_id"
   end
 
   create_table "products", force: :cascade do |t|
@@ -119,6 +137,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_05_145106) do
   add_foreign_key "business_invites", "businesses"
   add_foreign_key "business_invites", "users", column: "inviter_id"
   add_foreign_key "businesses", "users", column: "owner_id"
+  add_foreign_key "messages", "conversations"
+  add_foreign_key "messages", "users"
   add_foreign_key "sales", "products"
   add_foreign_key "stocks", "products"
   add_foreign_key "user_businesses", "businesses"
