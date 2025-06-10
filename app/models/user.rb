@@ -14,4 +14,8 @@ has_many :user_businesses
 has_many :businesses, through: :user_businesses
 has_many :invites, foreign_key: :inviter_id
 
+
+def self.lookup(query)
+  where("LOWER(username) LIKE ?", "%#{query.downcase}%").limit(10)
+ end
 end
