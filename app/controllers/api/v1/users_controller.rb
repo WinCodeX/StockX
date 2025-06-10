@@ -7,7 +7,7 @@ module Api
         query = params[:q].to_s.strip
         if query.present?
           users = User.lookup(query) # Using the lookup method to search users
-          render json: users, status: :ok
+          render json: UserSerializer.new(users).serialized_json, status: :ok
         else
           render json: [], status: :ok
         end
