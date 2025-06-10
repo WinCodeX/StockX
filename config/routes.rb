@@ -9,7 +9,7 @@ namespace :v1 do
   get 'me', to: 'me#show', defaults: { format: :json }
   put 'me/avatar', to: 'me#update_avatar'
   get 'ping', to: 'status#ping', defaults: { format: :json }
-
+get 'users/search', to: 'users#search'
 #conversation and messages
 
 resources :conversations, only: [:index, :create, :show]
