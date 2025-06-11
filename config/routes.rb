@@ -12,8 +12,9 @@ namespace :v1 do
 get 'users/search', to: 'users#search'
 #conversation and messages
 
-resources :conversations, only: [:index, :create, :show]
-    resources :messages, only: [:create]
+resources :conversations, only: [:index, :create, :show] do
+  resources :messages, only: [:index, :create]
+end
 
   # Product + related data
   resources :products, defaults: { format: :json } do
