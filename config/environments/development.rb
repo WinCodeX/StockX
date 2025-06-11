@@ -58,6 +58,10 @@ Rails.application.routes.default_url_options[:host] = 'http://192.168.100.73:300
   # Highlight code that enqueued background job in logs.
   config.active_job.verbose_enqueue_logs = true
 
+#action cable
+config.action_cable.url = "ws://192.168.100.73:3000/cable"
+config.action_cable.allowed_request_origins = [ /http:\/\/192\.168\.100\.73:.*/ ]
+
 
   # Raises error for missing translations.
   # config.i18n.raise_on_missing_translations = true
