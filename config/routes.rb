@@ -10,6 +10,8 @@ namespace :v1 do
   put 'me/avatar', to: 'me#update_avatar'
   get 'ping', to: 'status#ping', defaults: { format: :json }
 get 'users/search', to: 'users#search'
+
+post 'typing_status', to: 'typing_status#create'
 #conversation and messages
 
 resources :conversations, only: [:index, :create, :show] do
