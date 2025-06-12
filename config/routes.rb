@@ -1,63 +1,69 @@
 Rails.application.routes.draw do
+  # ✅ Remove or comment this out if you're only using API-based auth
+  # devise_for :users, path: '', path_names: { sign_in: 'login', sign_out: 'logout' }, controllers: { sessions: 'users/sessions' }
 
-devise_for :users, path: '', path_names: { sign_in: 'login', sign_out: 'logout' }, controllers: { sessions: 'users/sessions' }
+  namespace :api do
+    namespace :v1 do
+      # ✅ Devise routes for API (important!)
+      devise_for :users,
+        path: '',
+        path_names: {
+          sign_in: 'login',
+          sign_out: 'logout'
+        },
+        controllers: {
+          sessions: 'api/v1/sessions'
+        },
+        defaults: { format: :json }
 
-namespace :api do 
-namespace :v1 do
+      # ✅ User-specific routes
+      get 'me', to: 'me#show', defaults: { format: :json }
+      put 'me/avatar', to: 'me#update_avatar'
+      get 'ping', to: 'status#ping', defaults: { format: :json }
+      get 'users/search', to: 'users#search'
+      post 'typing_status', to: 'typing_status#create'
 
-# User routes
-  get 'me', to: 'me#show', defaults: { format: :json }
-  put 'me/avatar', to: 'me#update_avatar'
-  get 'ping', to: 'status#ping', defaults: { format: :json }
-get 'users/search', to: 'users#search'
+      # ✅ Conversations & messages
+      resources :conversations, only: [:index, :create, :show] do
+        resources :messages, only: [:index, :create]
+      end
 
-post 'typing_status', to: 'typing_status#create'
-#conversation and messages
+      # ✅ Products
+      resources :products, defaults: { format: :json } do
+        collection do
+          get :stats
+        end
 
-resources :conversations, only: [:index, :create, :show] do
-  resources :messages, only: [:index, :create]
-end
+        member do
+          get :history
+        end
 
-  # Product + related data
-  resources :products, defaults: { format: :json } do
-    collection do
-      get :stats
+        resources :stocks, only: [:index, :create], defaults: { format: :json }
+        resources :sales, only: [:index, :create], defaults: { format: :json }
+      end
+
+      # ✅ Sales
+      resources :sales, only: [], defaults: { format: :json } do
+        collection do
+          get :recent
+        end
+      end
+
+      # ✅ Business Invites
+      resources :invites, only: [:create], defaults: { format: :json } do
+        collection do
+          post :accept
+        end
+      end
+
+      # ✅ Businesses
+      resources :businesses, only: [:create, :index, :show], defaults: { format: :json }
     end
-
-    member do
-      get :history  # ✅ Fetch product stock history
-    end
-
-    resources :stocks, only: [:index, :create], defaults: { format: :json }
-    resources :sales, only: [:index, :create], defaults: { format: :json }
   end
 
-  # Sales
-  resources :sales, only: [], defaults: { format: :json } do
-    collection do
-      get :recent
-    end
-  end
+  # ✅ Health Check
+  get "up" => "rails/health#show", as: :rails_health_check
 
-  # Business invites
-  resources :invites, only: [:create], defaults: { format: :json } do
-    collection do
-      post :accept
-    end
-  end
-
-  # Businesses
-  resources :businesses, only: [:create, :index, :show], defaults: { format: :json }
-
+  # ✅ Optional: Root path (for non-API usage)
+  root "posts#index"
 end
-
-end
-
-#Health check
-
-get "up" => "rails/health#show", as: :rails_health_check
-
-root "posts#index" # Uncomment and customize if you want a root path
-
-end
-
