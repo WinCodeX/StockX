@@ -29,13 +29,12 @@ class Api::V1::MessagesController < ApplicationController
 
   def set_conversation
     @conversation = Conversation.find_by(id: params[:conversation_id])
-
     unless @conversation
       render json: { error: 'Conversation not found' }, status: :not_found
     end
   end
 
   def message_params
-    params.require(:message).permit(:content)
+    params.require(:message).permit(:body)
   end
 end
