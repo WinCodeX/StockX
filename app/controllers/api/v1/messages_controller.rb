@@ -5,7 +5,7 @@ class Api::V1::MessagesController < ApplicationController
   # GET /api/v1/conversations/:conversation_id/messages
   def index
     messages = @conversation.messages.includes(:user).order(:created_at)
-    render json: messages, each_serializer: MessageSerializer
+    render json: MessageSerializer.new(messages, include: [:user]).serialized_json, status: :ok
   end
 
   # POST /api/v1/conversations/:conversation_id/messages
@@ -17,7 +17,7 @@ class Api::V1::MessagesController < ApplicationController
     message = @conversation.messages.build(message_params.merge(user_id: current_user.id))
 
     if message.save
-      render json: message, serializer: MessageSerializer, status: :created
+      render json: MessageSerializer.new(message, include: [:user]).serialized_json, status: :created
     else
       render json: { errors: message.errors.full_messages }, status: :unprocessable_entity
     end
