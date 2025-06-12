@@ -10,7 +10,7 @@ class Api::V1::MessagesController < ApplicationController
 
   # POST /api/v1/conversations/:conversation_id/messages
   def create
-    unless @conversation.users.include?(current_user)
+    unless [@conversation.sender_id, @conversation.receiver_id].include?(current_user.id)
       return render json: { error: 'You are not a participant of this conversation.' }, status: :forbidden
     end
 
