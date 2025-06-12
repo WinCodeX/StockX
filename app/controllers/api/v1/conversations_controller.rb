@@ -46,28 +46,28 @@ module Api
       private
 
       def serialize_conversation(convo, full: false)
-        {
-          id: convo.id,
-          sender: {
-            id: convo.sender.id,
-            name: convo.sender.name
-          },
-          receiver: {
-            id: convo.receiver.id,
-            name: convo.receiver.name
-          },
-          messages: full ? convo.messages.order(:created_at).map do |m|
-            {
-              id: m.id,
-              body: m.body,
-              read: m.read,
-              user_id: m.user_id,
-              created_at: m.created_at
-            }
-          end : [],
-          last_updated: convo.updated_at
-        }
-      end
+  {
+    id: convo.id,
+    sender: {
+      id: convo.sender.id,
+      username: convo.sender.username
+    },
+    receiver: {
+      id: convo.receiver.id,
+      username: convo.receiver.username
+    },
+    messages: full ? convo.messages.order(:created_at).map do |m|
+      {
+        id: m.id,
+        body: m.body,
+        read: m.read,
+        user_id: m.user_id,
+        created_at: m.created_at
+      }
+    end : [],
+    last_updated: convo.updated_at
+  }
+end
     end
   end
 end
