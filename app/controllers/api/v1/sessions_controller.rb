@@ -15,7 +15,7 @@ module Api
             id: resource.id,
             email: resource.email,
             username: resource.username,
-            avatar_url: url_for(resource.avatar) if resource.avatar.attached?
+            avatar_url: resource.avatar.attached? ? helpers.url_for(resource.avatar) : nil
           }
         }, status: :ok
       end
