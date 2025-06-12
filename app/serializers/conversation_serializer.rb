@@ -2,20 +2,35 @@
 class ConversationSerializer
   include FastJsonapi::ObjectSerializer
 
-  attributes :id
+  attributes :id, :updated_at
 
-  belongs_to :sender, serializer: UserSerializer
-  belongs_to :receiver, serializer: UserSerializer
+  attribute :sender do |obj|
+    {
+      id: obj.sender.id,
+      username: obj.sender.username
+    }
+  end
 
-  attribute :lastMessage do |object|
-    last = object.messages.order(created_at: :desc).first
-    if last
-      {
-        body: last.body,
-        created_at: last.created_at
-      }
+  attribute :receiver do |obj|
+    {
+      id: obj.receiver.id,
+      username: obj.receiver.username
+    }
+  end
+
+  attribute :messages do |obj, params|
+    if params[:full]
+      obj.messages.order(:created_at).map do |m|
+        {
+          id: m.id,
+          body: m.body,
+          read: m.read,
+          user_id: m.user_id,
+          created_at: m.created_at
+        }
+      end
     else
-      nil
+      []
     end
   end
 end
